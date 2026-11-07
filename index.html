@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>İngilizce Pratik ve Gelişim Alanı | Hazırlık Seviyesi</title>
+  <meta name="description" content="Üniversite İngilizce hazırlık öğrencileri için senaryo tabanlı konuşma pratiği ve Türkçe detaylı gramer hata analizi uygulaması.">
+  
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- CSS -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- ÜST NAVİGASYON (HEADER) -->
+  <header class="app-header">
+    <div class="container header-container">
+      <!-- Logo & Başlık -->
+      <div class="logo-section">
+        <div class="app-logo">🌱</div>
+        <div class="app-title-group">
+          <h1>İngilizce Pratik</h1>
+          <span class="sub-text">Hazırlık Dil Gelişim Alanı</span>
+        </div>
+      </div>
+
+      <!-- Ortadaki Ana Sekmeler -->
+      <nav class="nav-tabs">
+        <button id="tab-scenarios-btn" class="nav-tab nav-tab-active">
+          🎭 Senaryolar
+        </button>
+        <button id="tab-free-chat-btn" class="nav-tab">
+          💬 Serbest Sohbet
+        </button>
+      </nav>
+
+      <!-- Sağ Aksiyonlar: Seviye, Yapay Zeka Durumu ve Ayarlar -->
+      <div class="header-actions">
+        <!-- Seviye Seçici Dropdown -->
+        <div class="level-indicator-group" title="İngilizce Seviyenizi Değiştirin">
+          <span class="level-label">Seviye:</span>
+          <select id="nav-level-selector" class="nav-level-select">
+            <option value="A1">A1</option>
+            <option value="A1+">A1+</option>
+            <option value="A2">A2</option>
+            <option value="A2+">A2+</option>
+            <option value="B1">B1</option>
+          </select>
+          <span id="current-level-badge" class="badge level-pill">A1</span>
+        </div>
+
+        <!-- AI Motor Durum Rozeti -->
+        <div id="ai-status-indicator" class="ai-status">
+          <span class="status-dot status-offline"></span>
+          <span class="status-text">Akıllı Motor Aktif</span>
+        </div>
+
+        <!-- Ayarlar Butonu -->
+        <button id="open-settings-btn" class="icon-btn" title="Yapay Zeka ve API Ayarları">
+          ⚙️
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ANA İÇERİK ALANI -->
+  <main class="app-main">
+    <div class="container">
+
+      <!-- 1. GÖRÜNÜM: SEVİYE BELİRLEME EKRANI -->
+      <section id="level-select-view" class="view-section">
+        <div class="hero-box">
+          <span class="hero-badge">🎓 Hazırlık Öğrencileri İçin Özel Tasarlandı</span>
+          <h2>İngilizce Seviyeni Belirle</h2>
+          <p>Sana en uygun günlük yaşam senaryoları ve seviyene özel pratiklerle konuşma becerini güvenle geliştir.</p>
+        </div>
+
+        <div id="level-cards-container" class="level-cards-grid">
+          <!-- JS tarafından dinamik oluşturulur -->
+        </div>
+      </section>
+
+      <!-- 2. GÖRÜNÜM: SENARYO LİSTESİ -->
+      <section id="scenarios-view" class="view-section hidden">
+        <div class="view-header">
+          <div>
+            <h2 id="scenario-level-title">Günlük Yaşam Senaryoları</h2>
+            <p class="text-secondary" style="font-size: 0.9rem; color: #64748B;">
+              Canlandırmak istediğin duruma tıkla, karakterle İngilizce sohbet et ve konuşma bitiminde Türkçe analizini al!
+            </p>
+          </div>
+          <button id="change-level-from-scenario-btn" class="btn btn-outline">
+            🔄 Seviye Değiştir
+          </button>
+        </div>
+
+        <div id="scenario-cards-grid" class="scenario-cards-grid">
+          <!-- JS tarafından dinamik oluşturulur -->
+        </div>
+      </section>
+
+      <!-- 3. GÖRÜNÜM: SENARYO SOHBET EKRANI -->
+      <section id="chat-view" class="view-section hidden">
+        <div class="chat-container-card">
+          <!-- Karakter & Senaryo Üst Bilgisi -->
+          <div class="chat-banner">
+            <div class="chat-banner-top">
+              <div class="chat-char-info">
+                <div id="chat-character-avatar" class="chat-char-avatar">🧑‍🍳</div>
+                <div class="chat-char-meta">
+                  <div style="display: flex; align-items: center; gap: 8px;">
+                    <h3 id="chat-scenario-title" style="font-size: 1.05rem; font-weight: 700; color: #2C3E50;">Kafede Kahve Siparişi</h3>
+                  </div>
+                  <div style="font-size: 0.82rem; color: #64748B;">
+                    Karakter: <strong id="chat-character-name">Sam</strong> (<span id="chat-character-role">Kampüs Baristası</span>)
+                  </div>
+                </div>
+              </div>
+
+              <div class="chat-banner-actions">
+                <button id="back-to-scenarios-btn" class="btn btn-outline" style="font-size: 0.85rem; padding: 6px 12px;">
+                  ← Senaryolara Dön
+                </button>
+                <button id="finish-and-analyze-btn" class="btn btn-finish-analyze" title="Diyaloğu sonlandırıp Türkçe gramer analiz raporunu gör">
+                  📊 Sohbeti Bitir & Analiz Et
+                </button>
+              </div>
+            </div>
+
+            <!-- Senaryo Başlığı ve Hedefi -->
+            <div class="chat-scenario-brief">
+              <span>🎯 <strong>Hedef:</strong></span>
+              <span id="chat-goal-desc">Sipariş ver ve fiyat sor.</span>
+            </div>
+
+            <!-- İlerleme Çubuğu -->
+            <div class="turn-progress-wrapper">
+              <div class="turn-progress-bar">
+                <div id="turn-progress-fill" class="turn-progress-fill"></div>
+              </div>
+              <span id="turn-progress-text" class="turn-progress-text">İlerleme: 0 / 5 Tur</span>
+            </div>
+          </div>
+
+          <!-- Kullanışlı Kalıp Önerileri (Pills) -->
+          <div class="suggested-phrases-bar">
+            <div class="phrases-header">💡 Kullanabileceğin Örnek Cümleler (Tıklayarak Yazdır):</div>
+            <div id="chat-phrases-container" class="phrases-pills-list">
+              <!-- Dinamik doldurulur -->
+            </div>
+          </div>
+
+          <!-- Mesajlaşma Akışı -->
+          <div id="chat-messages-list" class="chat-messages-container">
+            <!-- Mesaj balonları buraya eklenir -->
+          </div>
+
+          <!-- Mesaj Giriş Alanı -->
+          <div class="chat-input-bar">
+            <button id="chat-mic-btn" type="button" class="btn mic-btn" title="İngilizce Konuşarak Yazdır">
+              🎤 Konuş
+            </button>
+            <input 
+              id="chat-input" 
+              type="text" 
+              class="chat-input-field" 
+              placeholder="İngilizce cevabını buraya yaz (Enter tuşu ile gönder)..." 
+              autocomplete="off"
+            />
+            <button id="chat-send-btn" type="button" class="btn btn-primary send-btn">
+              Gönder ✈️
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. GÖRÜNÜM: SERBEST SOHBET ROBOTU (FREE CHAT) -->
+      <section id="free-chat-view" class="view-section hidden">
+        <div class="free-chat-wrapper">
+          <!-- Karakter Seçici & Konu İpuçları -->
+          <div class="free-chat-header-card">
+            <h2>İngilizce Sohbet Arkadaşı (Free Chat)</h2>
+            <p>Senaryo sınırları olmadan aklına gelen her konuda İngilizce sohbet et. Dilediğin anda analiz butonuna basarak Türkçe gramer raporunu alabilirsin!</p>
+            
+            <div class="persona-selection-list" id="free-chat-personas-container">
+              <!-- Personalar dinamik yüklenir -->
+            </div>
+
+            <div class="topics-bar">
+              <span class="topics-label">Konu Fikirleri:</span>
+              <div id="free-chat-topics-container" style="display: flex; gap: 8px; flex-wrap: wrap;">
+                <!-- Dinamik konu çipleri -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Serbest Sohbet Kartı -->
+          <div class="chat-container-card" style="min-height: 520px;">
+            <div class="chat-banner" style="display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <strong>Serbest Pratik Alanı</strong>
+                <p style="font-size: 0.8rem; color: #64748B;">Hata yapmaktan korkmadan rahatça yaz veya konuş!</p>
+              </div>
+              <div style="display: flex; gap: 8px;">
+                <button id="clear-free-chat-btn" class="btn btn-outline" style="font-size: 0.85rem; padding: 6px 12px;">
+                  🧹 Temizle
+                </button>
+                <button id="free-chat-analyze-btn" class="btn btn-finish-analyze">
+                  📊 Konuşmayı Analiz Et
+                </button>
+              </div>
+            </div>
+
+            <!-- Mesaj Akışı -->
+            <div id="free-chat-messages-list" class="chat-messages-container">
+              <!-- Mesajlar buraya akar -->
+            </div>
+
+            <!-- Giriş Alanı -->
+            <div class="chat-input-bar">
+              <button id="free-chat-mic-btn" type="button" class="btn mic-btn" title="İngilizce Konuşarak Yazdır">
+                🎤 Konuş
+              </button>
+              <input 
+                id="free-chat-input" 
+                type="text" 
+                class="chat-input-field" 
+                placeholder="İngilizce bir şeyler söyle veya soru sor..." 
+                autocomplete="off"
+              />
+              <button id="free-chat-send-btn" type="button" class="btn btn-primary send-btn">
+                Gönder ✈️
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- TÜRKÇE GRAMER VE HATA ANALİZİ MODALI (ÖNEMLİ BÖLÜM) -->
+  <div id="analysis-modal" class="modal-overlay hidden">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span style="font-size: 1.5rem;">📝</span>
+          <h3>Türkçe Dilbilgisi ve Hata Analiz Raporu</h3>
+        </div>
+        <button id="close-analysis-btn" class="modal-close-btn" title="Kapat">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Skor ve Özet Kartı -->
+        <div class="analysis-hero-card">
+          <div id="analysis-score-circle" class="score-circle-wrapper">
+            <div class="score-inner">
+              <span id="analysis-score-value" class="score-number">88</span>
+              <span class="score-label">SKOR / 100</span>
+            </div>
+          </div>
+          <div class="hero-meta">
+            <span id="analysis-badge" class="analysis-badge">Harika Performans!</span>
+            <p id="analysis-message" class="analysis-message">
+              Tebrikler! Senaryodaki iletişim amacını çok güzel karşıladın. Aşağıda yaptığın ufak hataların Türkçe açıklamalarını ve doğru kullanımlarını inceleyebilirsin.
+            </p>
+          </div>
+        </div>
+
+        <!-- İstatistik Çubuğu -->
+        <div class="analysis-stats-row">
+          <div class="stat-box">
+            <span id="analysis-stats-messages" class="stat-val">4</span>
+            <span class="stat-lbl">Yazdığın Cümle</span>
+          </div>
+          <div class="stat-box">
+            <span id="analysis-stats-words" class="stat-val">36</span>
+            <span class="stat-lbl">Toplam Kelime</span>
+          </div>
+          <div class="stat-box">
+            <span id="analysis-stats-errors" class="stat-val">1</span>
+            <span class="stat-lbl">Geliştirilecek Nokta</span>
+          </div>
+        </div>
+
+        <!-- Tespit Edilen Hatalar ve Açıklamaları -->
+        <div>
+          <h4 class="section-title">🔍 Tespit Edilen Hatalar ve Türkçe Açıklamaları</h4>
+          <div id="analysis-errors-list" class="error-cards-list">
+            <!-- Hata kartları dinamik eklenir -->
+          </div>
+        </div>
+
+        <!-- Olumlu Yönler -->
+        <div>
+          <h4 class="section-title">🌟 Tebrikler & Güçlü Yönlerin</h4>
+          <ul id="analysis-positive-list" class="analysis-bullet-list">
+            <!-- Dinamik doldurulur -->
+          </ul>
+        </div>
+
+        <!-- Hazırlık Öğrencisi Tavsiyeleri -->
+        <div>
+          <h4 class="section-title">💡 Hazırlık Eğitimi İçin Özel Tavsiyeler</h4>
+          <ul id="analysis-tips-list" class="analysis-bullet-list">
+            <!-- Dinamik tavsiyeler -->
+          </ul>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button id="analysis-copy-btn" class="btn btn-outline">
+          📋 Raporu Kopyala
+        </button>
+        <div class="footer-actions-right">
+          <button id="analysis-retry-btn" class="btn btn-outline">
+            🔄 Senaryoyu Tekrar Dene
+          </button>
+          <button id="analysis-new-scenario-btn" class="btn btn-primary">
+            🎭 Yeni Senaryo Seç →
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AYARLAR VE YAPAY ZEKA API MODALI -->
+  <div id="settings-modal" class="modal-overlay hidden">
+    <div class="modal-card" style="max-width: 580px;">
+      <div class="modal-header">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span style="font-size: 1.4rem;">⚙️</span>
+          <h3>Yapay Zeka ve API Ayarları</h3>
+        </div>
+        <button id="close-settings-btn" class="modal-close-btn" title="Kapat">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="settings-form">
+          <div class="form-group">
+            <label for="setting-provider-select">Çalışma Modu & Sağlayıcı:</label>
+            <select id="setting-provider-select" class="form-select">
+              <option value="offline">Yerleşik Akıllı Motor (Ücretsiz, Çevrimdışı / Kurulumsuz)</option>
+              <option value="gemini">Google Gemini API (Önerilen Canlı Model)</option>
+              <option value="openai">OpenAI API (GPT-4o Mini)</option>
+            </select>
+            <span class="form-hint">
+              "Yerleşik Akıllı Motor" hiçbir API anahtarı veya internet bağlantısı gerektirmeden Türk hazırlık öğrencilerine özel kural ve senaryo motoruyla tam kapasite çalışır.
+            </span>
+          </div>
+
+          <!-- Gemini Ayarları -->
+          <div id="gemini-settings-group" class="form-group hidden">
+            <label for="gemini-key-input">Google Gemini API Key:</label>
+            <input 
+              id="gemini-key-input" 
+              type="password" 
+              class="form-input" 
+              placeholder="AIzaSy..." 
+            />
+            <span class="form-hint">
+              Ücretsiz anahtarınızı <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener">Google AI Studio</a> üzerinden saniyeler içinde alabilirsiniz.
+            </span>
+
+            <label for="gemini-model-select" style="margin-top: 10px;">Model:</label>
+            <select id="gemini-model-select" class="form-select">
+              <option value="gemini-1.5-flash">Gemini 1.5 Flash (Hızlı ve Dengeli)</option>
+              <option value="gemini-2.0-flash">Gemini 2.0 Flash (En Güncel)</option>
+              <option value="gemini-1.5-pro">Gemini 1.5 Pro (Derin Analiz)</option>
+            </select>
+          </div>
+
+          <!-- OpenAI Ayarları -->
+          <div id="openai-settings-group" class="form-group hidden">
+            <label for="openai-key-input">OpenAI API Key:</label>
+            <input 
+              id="openai-key-input" 
+              type="password" 
+              class="form-input" 
+              placeholder="sk-..." 
+            />
+            <label for="openai-model-select" style="margin-top: 10px;">Model:</label>
+            <select id="openai-model-select" class="form-select">
+              <option value="gpt-4o-mini">GPT-4o Mini (Hızlı ve Ekonomik)</option>
+              <option value="gpt-4o">GPT-4o</option>
+            </select>
+          </div>
+
+          <div style="display: flex; gap: 10px; align-items: center; margin-top: 6px;">
+            <button id="test-api-btn" type="button" class="btn btn-outline" style="font-size: 0.85rem;">
+              🔌 Bağlantıyı Test Et
+            </button>
+            <div id="api-test-result" class="api-test-result"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer" style="justify-content: flex-end;">
+        <button id="save-settings-btn" class="btn btn-primary">
+          Kaydet ve Uygula
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT DOSYALARI -->
+  <script src="js/scenarios.js"></script>
+  <script src="js/grammar-engine.js"></script>
+  <script src="js/api-service.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
